@@ -7,22 +7,30 @@
 
 (in-package #:restas.openid-auth)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Module private state
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar *relying-party*)
+
+(defmethod restas:initialize-module-instance ((module (eql #.*package*)) context)
+  (restas:context-add-variable context
+                               '*relying-party*
+                               (make-instance 'cl-openid:relying-party
+                                              ;; todo: get rid of puri
+                                              :root-uri (puri:uri (format nil 
+                                                                          "http://~A/openid-rp"
+                                                                          *host-port*))
+                                              :realm (puri:uri (format nil "http://~A"
+                                                                       *host-port*)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Module web UI
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun finalize-page (content title)
   (funcall *finalize-page*
            (list :title title :body content)))
-
-;; todo: move into defmodule.lisp
-(defparameter *my-host-port* "173.230.157.202:8080")
-
-;; todo: move into the initialization
-(defparameter *relying-party* 
-  (make-instance 'cl-openid:relying-party
-                 ;; todo: get rid of puri
-                 :root-uri (puri:uri (format nil 
-                                             "http://~A/openid-rp"
-                                             *my-host-port*))
-                 :realm (puri:uri (format nil "http://~A"
-                                          *my-host-port*))))
 
 (restas:define-route openid-login ("openid-login" :method :get)
   (finalize-page 
