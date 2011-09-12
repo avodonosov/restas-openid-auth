@@ -77,7 +77,7 @@
           (format t "response message: ~% ~{~a~^~% ~}~%" message)
           (format t "(type-of user-id-url): ~A~%" (type-of user-id-url))
 
-          (setf (hunchentoot:session-value 'restas.openid-auth.cur-user)
+          (setf (hunchentoot:session-value 'cur-user)
                 user-id-url)
 
 ;;          (funcall *on-login* user-id-url)
