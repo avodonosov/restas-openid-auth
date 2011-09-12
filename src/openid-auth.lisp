@@ -62,9 +62,10 @@
          (user-id-url))
     (handler-case 
         (setf user-id-url 
-              (cl-openid:handle-indirect-response *relying-party* 
-                                                  message
-                                                  absolute-reply-uri))
+              (princ-to-string
+                (cl-openid:handle-indirect-response *relying-party* 
+                                                    message
+                                                    absolute-reply-uri)))
       (cl-openid:openid-assertion-error (e)
         (RETURN-FROM openid-rp (finalize-page (format nil "Error: ~A ~A"
                                                       (cl-openid:code e)
