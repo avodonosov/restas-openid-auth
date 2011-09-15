@@ -9,11 +9,10 @@
     padding:4px;
 }
 
-/* The following are the original styles of jQueryOpenIdPlugin. */
+/* The following are the styles of jQueryOpenIdPlugin. */
 
-body {font-family: Arial;}
-fieldset {border-style:none;}
-img {border-style:none;}
+form.openid fieldset {border-style:none;}
+form.openid img {border-style:none;}
 
 form.openid ul { text-align:center; list-style-type:none; display:inline;}
 form.openid ul li {float:left; padding:4px}
