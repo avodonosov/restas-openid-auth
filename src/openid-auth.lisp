@@ -16,15 +16,16 @@
 (defvar *relying-party*)
 
 (defmethod restas:initialize-module-instance ((module (eql #.*package*)) context)
-  (restas:context-add-variable context
-                               '*relying-party*
-                               (make-instance 'cl-openid:relying-party
-                                              ;; todo: get rid of puri
-                                              :root-uri (puri:uri (format nil 
-                                                                          "http://~A/openid-rp"
-                                                                          *host-port*))
-                                              :realm (puri:uri (format nil "http://~A"
-                                                                       *host-port*)))))
+  (let ((host-port (restas:context-symbol-value context '*host-port*)))    
+    (restas:context-add-variable context
+                                 '*relying-party*
+                                 (make-instance 'cl-openid:relying-party
+                                                ;; todo: get rid of puri
+                                                :root-uri (puri:uri (format nil 
+                                                                            "http://~A/openid-rp"
+                                                                            host-port))
+                                                :realm (puri:uri (format nil "http://~A"
+                                                                         host-port))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Module web UI
