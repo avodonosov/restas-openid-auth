@@ -1,6 +1,12 @@
 restas-openid-auth - RESTAS-plugin for OpenID user authentication 
 
-Copyright (c) 2011 Anton Vodonosov
+Copyright (c) 2011 Anton Vodonosov.
+
+The files in the "resources" directory are part of 
+the jQuery OpenID Plugin by Jarrett Vance. 
+See resources/COPYING.
+
+Other code is under LLGPL:
 
 Preamble to the Gnu Lesser General Public License
 

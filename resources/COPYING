@@ -1,0 +1,14 @@
+The files in this directory: 
+    images/*
+    jquery.openid.js 
+    login-form.html 
+    openid.css 
+are taken (with slight modifications) from 
+jQuery OpenID Plugin by Jarrett Vance, 
+under Creative Commons Attribution License.
+
+The jQuery OpenID Plugin home page:
+http://jvance.com/pages/JQueryOpenIDPlugin.xhtml
+
+The Creative Commons Attribution License:
+https://creativecommons.org/licenses/by/3.0/

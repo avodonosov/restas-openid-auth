@@ -1,3 +1,5 @@
+;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: :restas.openid-auth; Base: 10; indent-tabs-mode: nil; coding: utf-8; -*-
+
 ;;;; openid-auth.lisp
 ;;;;
 ;;;; This file is part of the restas-openid-auth library, released under Lisp-LGPL.
@@ -32,22 +34,33 @@
   (funcall *finalize-page*
            (list :title title :body content)))
 
-(restas:define-route openid-login ("openid-login" :method :get)
-  (finalize-page 
-   "<form method=\"POST\">
-  <fieldset>
-    <legend>OpenID Login</legend>
-    <input type=\"text\" 
-           name=\"openid_identifier\" 
-           value=\"\" 
-           style=\"background-image: url('http://openid.net/wp-content/uploads/2007/10/openid_small_logo.png');background-position: 0px 0px;background-repeat: no-repeat;padding-left: 20px;\">
+(defparameter *resources-dir*
+  (merge-pathnames "resources/"
+                   (asdf:component-pathname (asdf:find-system '#:restas-openid-auth))))
 
-    <input type=\"submit\" name=\"openid_action\" value=\"Login\">
-  </fieldset>
-</form>"
-   "OpenID Login"))
+(defun resource-path (path)
+  (merge-pathnames path *resources-dir*))
 
-(restas:define-route openid-login/post ("openid-login"
+(defun image-path (img-file)
+  (merge-pathnames img-file
+                   (resource-path "images/")))
+
+(restas:define-route openid-resources ("openid/:(file)")
+  (resource-path file))
+
+(restas:define-route openid-images ("openid/images/:(file)")
+  (image-path file))
+
+(restas:define-route openid-login ("openid/login" :method :get)
+  (funcall *finalize-page*
+           (list :title "OpenID Login"
+                 :css (list (restas:genurl 'openid-resources :file "openid.css"))
+                 :js (list "http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"
+                           (restas:genurl 'openid-resources :file "jquery.openid.js"))
+                 :body (alexandria:read-file-into-string (merge-pathnames "login-form.html"
+                                                                             *resources-dir*)))))
+
+(restas:define-route openid-login/post ("openid/login"
                                  :method :post)
   (let ((openid (hunchentoot:post-parameter "openid_identifier")))
     (hunchentoot:REDIRECT            

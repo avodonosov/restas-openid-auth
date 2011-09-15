@@ -6,7 +6,7 @@
 ;;;; Author: Anton Vodonosov <avodonosov@yandex.com>
 
 (defsystem restas-openid-auth
-  :depends-on (#:restas #:cl-openid #:closure-template)
+  :depends-on (#:restas #:cl-openid #:closure-template #:alexandria)
   :components ((:module "src"
                         :components ((:file "defmodule")
                                      (:file "openid-auth" :depends-on ("defmodule"))))))
